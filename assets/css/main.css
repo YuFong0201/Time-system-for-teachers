@@ -1,0 +1,45 @@
+.nav-btn {
+  padding: 0.5rem 1.25rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  color: #64748B; /* 淺色模式字體 */
+  transition: all 0.2s ease;
+}
+
+.dark .nav-btn {
+  color: #94A3B8; /* 深色模式字體 */
+}
+
+.nav-btn.active {
+  background-color: #0E7490;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(14, 116, 144, 0.4);
+}
+
+.icon-btn {
+  padding: 0.5rem 0.8rem;
+  font-size: 1rem;
+  background-color: #E2E8F0;
+  color: #1E293B;
+  border-radius: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.dark .icon-btn {
+  background-color: #334155;
+  color: #F8FAFC;
+}
+
+.icon-btn:hover {
+  background-color: #CBD5E1;
+}
+
+.dark .icon-btn:hover {
+  background-color: #475569;
+}

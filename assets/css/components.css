@@ -1,0 +1,28 @@
+/* 聯絡簿 Drawer 抽屜 */
+.drawer-panel {
+  position: fixed;
+  right: -50%;
+  top: 60px;
+  width: 50%;
+  height: calc(100vh - 60px);
+  background-color: rgba(30, 41, 59, 0.98);
+  border-left: 2px solid #334155;
+  transition: right 0.3s ease-in-out;
+  z-index: 30;
+  box-shadow: -10px 0 25px rgba(0,0,0,0.5);
+}
+
+.drawer-panel.open {
+  right: 0;
+}
+
+/* 觸控加大按鈕 (至少 48px) */
+.touch-btn {
+  min-width: 48px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 0.5rem;
+}

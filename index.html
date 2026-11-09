@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教室時間管理大師</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { light: '#0E7490', dark: '#06B6D4' }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body class="bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+  <!-- 頂部導覽列 -->
+  <header class="bg-white/80 dark:bg-slate-800/80 backdrop-blur border-b border-slate-200 dark:border-slate-700 px-6 py-3 flex items-center justify-between sticky top-0 z-40 transition-colors">
+    <div class="flex items-center gap-3">
+      <!-- 品牌極簡 SVG Icon (時鐘) -->
+      <span class="text-cyan-600 dark:text-cyan-400">
+        <svg class="w-6 h-6 fill-none stroke-current stroke-2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </span>
+      <h1 class="text-xl font-bold tracking-wide text-cyan-600 dark:text-cyan-400">教室時間管理大師</h1>
+    </div>
+
+    <!-- 介面場景切換按鈕 -->
+    <nav class="flex bg-slate-200/60 dark:bg-slate-900/60 p-1 rounded-xl border border-slate-300/50 dark:border-slate-700/50">
+      <button data-view="clock" class="nav-btn active">時鐘</button>
+      <button data-view="group" class="nav-btn">計時器</button>
+      <button data-view="pomodoro" class="nav-btn">番茄時鐘</button>
+      <button data-view="exam" class="nav-btn">今日考程</button>
+    </nav>
+
+    <!-- 工具按鈕 -->
+    <div class="flex items-center gap-2">
+      
+      <!-- 深淺模式切換按鈕 (深色模式顯示太陽，淺色模式顯示月亮) -->
+      <button id="toggleThemeBtn" class="icon-btn cursor-pointer p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300 flex items-center justify-center" title="切換深淺模式">
+        <!-- 太陽 Icon (深色模式下顯示) -->
+        <svg class="w-5 h-5 hidden dark:block fill-none stroke-current stroke-2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        
+        <!-- 月亮 Icon (淺色模式下顯示) -->
+        <svg class="w-5 h-5 block dark:hidden fill-none stroke-current stroke-2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <!-- 備份下載按鈕 (極簡下載卡匣/硬碟 Icon) -->
+      <button id="exportBtn" class="icon-btn cursor-pointer p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300 flex items-center gap-1.5 text-sm font-bold" title="下載備份檔 (.json)">
+        <svg class="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+          <polyline points="17 21 17 13 7 13 7 21"/>
+          <polyline points="7 3 7 8 15 8"/>
+        </svg>
+        <span>備份</span>
+      </button>
+
+      <!-- 還原載入按鈕 (極簡資料夾開啟 Icon) -->
+      <button id="importBtn" class="icon-btn cursor-pointer p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300 flex items-center gap-1.5 text-sm font-bold" title="載入備份檔">
+        <svg class="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          <line x1="12" y1="11" x2="12" y2="17"/>
+          <polyline points="9 14 12 11 15 14"/>
+        </svg>
+        <span>還原</span>
+      </button>
+
+      <input type="file" id="importFile" class="hidden" accept=".json">
+    </div>
+  </header>
+
+  <!-- 主要內容顯示區域 -->
+  <main id="appContainer" class="flex-1 p-6 relative flex flex-col items-center justify-center overflow-x-hidden bg-transparent">
+    <!-- 視圖由 JS 動態渲染 -->
+  </main>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
